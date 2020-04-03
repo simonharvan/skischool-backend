@@ -26,5 +26,23 @@ Route::group(['namespace' => 'Api'], function () {
         Route::get('/users', function (Request $request) {
             return $request->user();
         });
+
+        Route::resource('instructors', 'InstructorController', [
+            'only' => [
+                'index'
+            ]
+        ]);
+
+        Route::resource('clients', 'ClientController', [
+            'only' => [
+                'index'
+            ]
+        ]);
+
+        Route::resource('lessons', 'LessonController', [
+            'only' => [
+                'index', 'store', 'update', 'destroy'
+            ]
+        ]);
     });
 });

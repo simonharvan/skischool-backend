@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-class RegisterUser extends ApiRequest
+class UpdateLesson extends ApiRequest
 {
     /**
      * Get data to be validated from the request.
@@ -11,7 +11,7 @@ class RegisterUser extends ApiRequest
      */
     public function validationData()
     {
-        return $this->get('user') ?: [];
+        return $this->get('lesson') ?: [];
     }
 
     /**
@@ -22,9 +22,12 @@ class RegisterUser extends ApiRequest
     public function rules()
     {
         return [
-            'username' => 'required|max:50|alpha_num|unique:users,username',
-            'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|min:6',
+            'from' => 'required|date',
+            'to' => 'required|date',
+            'name' => 'string|max:255',
+            'type' => 'required|in:ski,snb',
+            'price' => 'required|numeric',
+            'instructor_id' => 'required|numeric',
         ];
     }
 }

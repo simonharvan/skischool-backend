@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Skischool\Transformers;
+
+class ClientTransformer extends Transformer
+{
+    protected $resourceName = 'client';
+
+    public function transform($data)
+    {
+        return [
+            'id' => $data['id'],
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'phone_2' => $data['phone_2'],
+        ];
+    }
+}

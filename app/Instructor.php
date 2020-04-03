@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\SkiSchool\Filters\Filterable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Instructor extends Authenticatable
 {
+
+    use Filterable;
     /**
      * The attributes that are mass assignable.
      *

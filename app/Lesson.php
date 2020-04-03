@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\SkiSchool\Filters\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
 {
+
+    use Filterable;
     /**
      * The attributes that are mass assignable.
      *
