@@ -3,12 +3,14 @@
 namespace App;
 
 use App\SkiSchool\Filters\Filterable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Instructor extends Authenticatable
 {
 
-    use Filterable;
+    use Filterable, SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -31,6 +33,10 @@ class Instructor extends Authenticatable
         return $this->hasMany(Attendance::class)->latest();
     }
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function lessons() {
         return $this->hasMany(Lesson::class)->latest();
     }

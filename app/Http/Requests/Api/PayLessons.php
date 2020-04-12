@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-class UpdateLesson extends ApiRequest
+class PayLessons extends ApiRequest
 {
     /**
      * Get data to be validated from the request.
@@ -22,13 +22,8 @@ class UpdateLesson extends ApiRequest
     public function rules()
     {
         return [
-            'from' => 'required|date',
-            'to' => 'required|date',
-            'name' => 'string|max:255',
-            'type' => 'required|in:ski,snb',
-            'price' => 'required|numeric',
-            'status' => 'in:unpaid,paid',
-            'instructor_id' => 'required|numeric',
+            'ids' => 'required|array',
+            'price' => 'numeric'
         ];
     }
 }

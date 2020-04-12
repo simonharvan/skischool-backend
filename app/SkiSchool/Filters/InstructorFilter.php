@@ -14,7 +14,7 @@ class InstructorFilter extends Filter
      */
     protected function name($name)
     {
-        return $this->builder->where('name', 'LIKE', '%'. $name . '%');
+        return $this->builder->where('name', 'LIKE', '%' . $name . '%');
     }
 
     /**
@@ -37,13 +37,28 @@ class InstructorFilter extends Filter
     protected function teaching($teaching)
     {
         if ($teaching === 'both') {
-            return $this->builder->where('teaching', '=' ,'both');
+            return $this->builder->where('teaching', '=', 'both');
         }
 
         return $this->builder->where(function ($query) use ($teaching) {
             $query->where('teaching', '=', 'both')
                 ->orWhere('teaching', '=', $teaching);
         });
+    }
 
+
+    /**
+     * Filter by date
+     *
+     * @param $date
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function date($date)
+    {
+        return $this->builder->whereHas('attendances', function ($query) use ($date) {
+            $query->whereDate('from', $date);
+        })->orWhereHas('lessons', function ($query) use ($date) {
+            $query->whereDate('from', $date);
+        })->orWhere('email', '=', 'docasny@instruktor.sk');
     }
 }

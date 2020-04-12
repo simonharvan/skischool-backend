@@ -4,18 +4,19 @@ namespace App;
 
 use App\SkiSchool\Filters\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lesson extends Model
 {
 
-    use Filterable;
+    use Filterable, SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'from', 'to', 'name', 'type', 'price', 'instructor_id', 'client_id'
+        'from', 'to', 'name', 'type', 'price', 'status', 'instructor_id', 'client_id'
     ];
 
     public function instructor()

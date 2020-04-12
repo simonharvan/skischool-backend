@@ -41,6 +41,10 @@ class ApiController extends Controller
     {
         $this->checkTransformer();
 
+        if (is_array($data)) {
+            $data = collect($data);
+        }
+
         if ($data instanceof Collection) {
             $data = $this->transformer->collection($data);
         } else {

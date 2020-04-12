@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Client;
 use App\Http\Requests\Api\CreateLesson;
 use App\Http\Requests\Api\DeleteLesson;
+use App\Http\Requests\Api\PayLessons;
 use App\Http\Requests\Api\UpdateLesson;
 use App\Instructor;
 use App\Lesson;
@@ -33,9 +34,9 @@ class LessonController extends ApiController
      */
     public function index(LessonFilter $filter)
     {
-        $instructors = Lesson::filter($filter)->get();
+        $lessons = Lesson::filter($filter)->get();
 
-        return $this->respondWithTransformer($instructors);
+        return $this->respondWithTransformer($lessons);
     }
 
     /**
@@ -48,7 +49,8 @@ class LessonController extends ApiController
     {
         $lesson = $request->get('lesson');
         $client = $lesson['client'];
-        if (!isset($client->id)) {
+
+        if (!isset($client['id'])) {
             try {
                 $client = Client::create([
                     'name' => $client['name'],
@@ -64,7 +66,14 @@ class LessonController extends ApiController
                     return $this->respondInternalError('Problem creating client: ' . $e->getMessage());
                 }
             }
+        } else {
+            $client = Client::firstWhere('id', '=', $client['id']);
         }
+
+        if (empty($client)) {
+            return $this->respondError('Client not found', 404);
+        }
+
         $instructor = Instructor::firstWhere('id', '=', $lesson['instructor_id']);
         if (empty($instructor)) {
             return $this->respondError('Instructor not found', 404);
@@ -73,11 +82,12 @@ class LessonController extends ApiController
         $result = Lesson::create([
             'from' => $lesson['from'],
             'to' => $lesson['to'],
-            'name' => !empty($lesson['name']) ? $lesson['name'] : $client->name,
+            'name' => !isset($lesson['name']) ? $client['name'] : $lesson['name'],
             'type' => $lesson['type'],
             'price' => $lesson['price'],
-            'instructor_id' => $instructor->id,
-            'client_id' => $client->id
+            'status' => 'unpaid',
+            'instructor_id' => $instructor['id'],
+            'client_id' => $client['id']
         ]);
 
         return $this->respondWithTransformer($result);
@@ -103,7 +113,7 @@ class LessonController extends ApiController
 
         $newLesson = [
             'from' => $newLesson['from'],
-            'to' => $newLesson['from'],
+            'to' => $newLesson['to'],
             'price' => $newLesson['price'],
             'type' => $newLesson['type'],
             'instructor_id' => $newLesson['instructor_id'],
@@ -111,6 +121,10 @@ class LessonController extends ApiController
 
         if (!empty($request->get('lesson')['name'])) {
             $newLesson['name'] = $request->get('lesson')['name'];
+        }
+
+        if (!empty($request->get('lesson')['status'])) {
+            $newLesson['status'] = $request->get('lesson')['status'];
         }
 
         $lesson->update($newLesson);
@@ -131,18 +145,30 @@ class LessonController extends ApiController
 
         return $this->respondSuccess();
     }
-//
-//    /**
-//     * Delete the article given by its slug.
-//     *
-//     * @param DeleteArticle $request
-//     * @param Article $article
-//     * @return \Illuminate\Http\JsonResponse
-//     */
-//    public function destroy(DeleteArticle $request, Article $article)
-//    {
-//        $article->delete();
-//
-//        return $this->respondSuccess();
-//    }
+
+    public function preparePay(Lesson $lesson)
+    {
+        $unpaid = Lesson::query()
+            ->where('client_id', '=', $lesson->client_id)
+            ->where('status', '=', 'unpaid')
+            ->get();
+
+        return $this->respondWithTransformer($unpaid);
+    }
+
+    public function pay(PayLessons $request)
+    {
+        $lessons = $request->get('lesson');
+        $update = [
+            'status' => 'paid'
+        ];
+
+        if (isset($lessons['price'])) {
+            $update['price'] = $lessons['price'] / count($lessons['ids']);
+        }
+
+        Lesson::whereIn('id', $lessons['ids'])->update($update);
+
+        return $this->respondSuccess();
+    }
 }

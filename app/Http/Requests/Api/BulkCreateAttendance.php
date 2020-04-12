@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
-class UpdateLesson extends ApiRequest
+class BulkCreateAttendance extends ApiRequest
 {
     /**
      * Get data to be validated from the request.
@@ -11,7 +11,7 @@ class UpdateLesson extends ApiRequest
      */
     public function validationData()
     {
-        return $this->get('lesson') ?: [];
+        return $this->get('attendances') ?: [];
     }
 
     /**
@@ -24,11 +24,7 @@ class UpdateLesson extends ApiRequest
         return [
             'from' => 'required|date',
             'to' => 'required|date',
-            'name' => 'string|max:255',
-            'type' => 'required|in:ski,snb',
-            'price' => 'required|numeric',
-            'status' => 'in:unpaid,paid',
-            'instructor_id' => 'required|numeric',
+            'instructor_ids' => 'required|array',
         ];
     }
 }

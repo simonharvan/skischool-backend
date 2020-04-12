@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Instructor;
 use App\SkiSchool\Filters\InstructorFilter;
-use App\SkiSchool\Paginate\Paginate;
 use App\Skischool\Transformers\InstructorTransformer;
 
 class InstructorController extends ApiController
