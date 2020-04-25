@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 
 use App\Client;
+use App\Http\Controllers\Api\ApiController;
 use App\Instructor;
 use App\Lesson;
 use App\Skischool\Transformers\StatsTransformer;
 use Carbon\Carbon;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
 

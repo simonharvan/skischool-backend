@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Client;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\CreateLesson;
 use App\Http\Requests\Api\DeleteLesson;
 use App\Http\Requests\Api\PayLessons;
 use App\Http\Requests\Api\UpdateLesson;
 use App\Instructor;
 use App\Lesson;
-use App\SkiSchool\Filters\InstructorFilter;
-use App\SkiSchool\Filters\LessonFilter;
+use App\SkiSchool\Filters\Admin\LessonFilter;
 use App\Skischool\Transformers\LessonTransformer;
 use Illuminate\Database\QueryException;
 
@@ -29,7 +29,7 @@ class LessonController extends ApiController
     /**
      * Get all the lessons.
      *
-     * @param InstructorFilter $filter
+     * @param LessonFilter $filter
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(LessonFilter $filter)

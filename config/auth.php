@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+
 return [
 
     /*
@@ -44,6 +46,10 @@ return [
             'driver' => 'jwt',
             'provider' => 'users',
         ],
+        'instructors' => [
+            'driver' => 'jwt',
+            'provider' => 'instructors',
+        ],
     ],
 
 
@@ -68,6 +74,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+        'instructors' => [
+            'driver' => 'eloquent',
+            'model' => App\Instructor::class,
         ],
 
         // 'users' => [

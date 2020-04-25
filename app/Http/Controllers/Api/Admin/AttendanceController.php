@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Attendance;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\BulkCreateAttendance;
 use App\Http\Requests\Api\BulkDeleteAttendance;
 use App\Http\Requests\Api\CreateAttendance;
@@ -13,8 +14,8 @@ use App\Http\Requests\Api\UpdateAttendance;
 use App\Http\Requests\Api\UpdateLesson;
 use App\Instructor;
 use App\Lesson;
-use App\SkiSchool\Filters\AttendanceFilter;
-use App\SkiSchool\Filters\InstructorFilter;
+
+use App\SkiSchool\Filters\Admin\AttendanceFilter;
 use App\Skischool\Transformers\AttendanceTransformer;
 
 class AttendanceController extends ApiController
@@ -32,7 +33,7 @@ class AttendanceController extends ApiController
     /**
      * Get all the lessons.
      *
-     * @param InstructorFilter $filter
+     * @param AttendanceFilter $filter
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(AttendanceFilter $filter)

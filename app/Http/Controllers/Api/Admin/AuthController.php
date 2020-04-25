@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +44,7 @@ class AuthController extends ApiController
 
 //        return $this->respondWithTransformer(Auth::user());
     }
+
 
     /**
      * Register a new user and return the user if successful.

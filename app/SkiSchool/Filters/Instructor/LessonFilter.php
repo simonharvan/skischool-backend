@@ -1,7 +1,8 @@
 <?php
 
-namespace App\SkiSchool\Filters;
+namespace App\SkiSchool\Filters\Instructor;
 
+use App\SkiSchool\Filters\Filter;
 
 class LessonFilter extends Filter
 {
@@ -14,11 +15,11 @@ class LessonFilter extends Filter
      */
     protected function name($name)
     {
-        return $this->builder->where('name', 'LIKE', '%'. $name . '%');
+        return $this->builder->where('name', 'LIKE', '%' . $name . '%');
     }
 
     /**
-     * Filter by clients name.
+     * Filter by lessons date
      * Get all the articles by the user with given username.
      *
      * @param $username
@@ -30,7 +31,7 @@ class LessonFilter extends Filter
     }
 
     /**
-     * Filter by clients name.
+     * Filter by status
      * Get all the articles by the user with given username.
      *
      * @param $username

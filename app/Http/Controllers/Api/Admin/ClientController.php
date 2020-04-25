@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
-use App\Instructor;
-use App\SkiSchool\Filters\InstructorFilter;
-use App\Skischool\Transformers\InstructorTransformer;
+use App\Client;
+use App\Http\Controllers\Api\ApiController;
+use App\SkiSchool\Filters\Admin\ClientFilter;
+use App\Skischool\Transformers\ClientTransformer;
 
-class InstructorController extends ApiController
+
+class ClientController extends ApiController
 {
     /**
      * InstructorController constructor.
      *
-     * @param InstructorTransformer $transformer
+     * @param ClientTransformer $transformer
      */
-    public function __construct(InstructorTransformer $transformer)
+    public function __construct(ClientTransformer $transformer)
     {
         $this->transformer = $transformer;
     }
@@ -21,12 +23,12 @@ class InstructorController extends ApiController
     /**
      * Get all the instructors.
      *
-     * @param InstructorFilter $filter
+     * @param ClientFilter $filter
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(InstructorFilter $filter)
+    public function index(ClientFilter $filter)
     {
-        $instructors = Instructor::filter($filter)->get();
+        $instructors = Client::filter($filter)->get();
 
         return $this->respondWithTransformer($instructors);
     }

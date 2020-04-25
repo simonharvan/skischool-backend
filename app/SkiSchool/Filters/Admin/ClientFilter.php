@@ -1,7 +1,9 @@
 <?php
 
-namespace App\SkiSchool\Filters;
+namespace App\SkiSchool\Filters\Admin;
 
+
+use App\SkiSchool\Filters\Filter;
 
 class ClientFilter extends Filter
 {
