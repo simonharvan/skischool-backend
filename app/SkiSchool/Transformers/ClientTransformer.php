@@ -2,6 +2,8 @@
 
 namespace App\Skischool\Transformers;
 
+use App\SkiSchool\Transformers\Transformer;
+
 class ClientTransformer extends Transformer
 {
     protected $resourceName = 'client';

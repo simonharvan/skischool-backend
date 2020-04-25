@@ -2,6 +2,10 @@
 
 namespace App\Skischool\Transformers;
 
+use App\SkiSchool\Transformers\Transformer;
+use App\SkiSchool\Transformers\InstructorTransformer;
+use App\SkiSchool\Transformers\ClientTransformer;
+
 class LessonTransformer extends Transformer
 {
     protected $resourceName = 'lesson';
