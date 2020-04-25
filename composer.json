@@ -41,7 +41,10 @@
         },
         "classmap": [
             "database/seeds",
-            "database/factories"
+            "database/factories",
+            "app/SkiSchool/Filters",
+            "app/SkiSchool/Transformers",
+            "app/SkiSchool/Paginate"
         ]
     },
     "autoload-dev": {
