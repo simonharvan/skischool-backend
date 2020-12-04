@@ -56,17 +56,22 @@ class StatsController extends ApiController
             ->orderBy('earned', 'DESC')
             ->first();
 
-        $data['best_instructor'] = Instructor::firstWhere('id', '=', $lesson->instructor_id)->name;
-        $instructorsLessons = Lesson::query()
-            ->where('from', '>=', $monthAgo)
-            ->where('instructor_id', '=', $lesson->instructor_id)
-            ->get();
+        if (empty($lesson)) {
+            $data['best_instructor'] = null;
+            $data['best_instructor_duration'] = 0;
+        } else {
+            $data['best_instructor'] = Instructor::firstWhere('id', '=', $lesson->instructor_id)->name;
+            $instructorsLessons = Lesson::query()
+                ->where('from', '>=', $monthAgo)
+                ->where('instructor_id', '=', $lesson->instructor_id)
+                ->get();
 
-        $diff = 0;
-        foreach ($instructorsLessons as $lesson) {
-            $diff = $diff + Carbon::parse($lesson->from)->diffInMinutes(Carbon::parse($lesson->to));
+            $diff = 0;
+            foreach ($instructorsLessons as $lesson) {
+                $diff = $diff + Carbon::parse($lesson->from)->diffInMinutes(Carbon::parse($lesson->to));
+            }
+            $data['best_instructor_duration'] = $diff;
         }
-        $data['best_instructor_duration'] = $diff;
 
         return $this->respondWithTransformer($data);
     }
