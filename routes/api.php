@@ -74,6 +74,11 @@ Route::group(['namespace' => 'Api'], function () {
                     'index'
                 ]
             ]);
+            Route::resource('devices', 'DeviceController', [
+                'only' => [
+                    'index', 'store'
+                ]
+            ]);
         });
     });
 });

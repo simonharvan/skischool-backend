@@ -42,6 +42,14 @@ class Instructor extends Authenticatable implements JWTSubject
         return $this->hasMany(Lesson::class)->latest();
     }
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function devices() {
+        return $this->hasManyThrough(Device::class, InstructorDevice::class, 'device_id', 'id', 'id', 'id');
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

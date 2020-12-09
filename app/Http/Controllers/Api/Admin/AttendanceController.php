@@ -46,7 +46,7 @@ class AttendanceController extends ApiController
     /**
      * Create a new lesson and return the lesson if successful.
      *
-     * @param CreateLesson $request
+     * @param CreateAttendance $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateAttendance $request)

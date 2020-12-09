@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\Instructor;
 
 
+use App\Device;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\LoginInstructor;
+use App\Instructor;
 use App\Skischool\Transformers\InstructorTransformer;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Api\LoginUser;
@@ -46,6 +48,14 @@ class AuthController extends ApiController
 
     public function logout()
     {
+        $user = Auth::user();
+        if ($user instanceof Instructor) {
+            $devices = $user->devices();
+            foreach ($devices as $device) {
+                $device->delete();
+            }
+        }
+
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
