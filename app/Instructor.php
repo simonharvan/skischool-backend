@@ -5,12 +5,13 @@ namespace App;
 use App\SkiSchool\Filters\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Instructor extends Authenticatable implements JWTSubject
 {
 
-    use Filterable, SoftDeletes;
+    use Filterable, SoftDeletes, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -47,7 +48,7 @@ class Instructor extends Authenticatable implements JWTSubject
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function devices() {
-        return $this->hasManyThrough(Device::class, InstructorDevice::class, 'device_id', 'id', 'id', 'id');
+        return $this->hasManyThrough(Device::class, InstructorDevice::class, 'instructor_id', 'id', 'id', 'device_id');
     }
 
     /**
@@ -75,5 +76,21 @@ class Instructor extends Authenticatable implements JWTSubject
         if ( !empty($password) ) {
             $this->attributes['password'] = bcrypt($password);
         }
+    }
+
+    /**
+     * Specifies the user's FCM tokens
+     *
+     * @return string|array
+     */
+    public function routeNotificationForFcm()
+    {
+        $devices = $this->devices()->get(['token'])->toArray();
+
+        $devices = array_map(function ($value) {
+            return $value['token'];
+        }, $devices);
+
+        return $devices;
     }
 }

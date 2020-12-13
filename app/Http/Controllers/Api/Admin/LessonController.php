@@ -11,6 +11,7 @@ use App\Http\Requests\Api\UpdateLesson;
 use App\Instructor;
 use App\Lesson;
 use App\SkiSchool\Filters\Admin\LessonFilter;
+use App\SkiSchool\Notifications\CreatedLesson;
 use App\Skischool\Transformers\LessonTransformer;
 use Illuminate\Database\QueryException;
 
@@ -90,6 +91,10 @@ class LessonController extends ApiController
             'client_id' => $client['id']
         ]);
 
+        if ($instructor instanceof Instructor) {
+            $instructor->notify(new CreatedLesson($result));
+        }
+
         return $this->respondWithTransformer($result);
     }
 
@@ -98,7 +103,7 @@ class LessonController extends ApiController
      * Update the lesson given by its slug and return the article if successful.
      *
      * @param UpdateLesson $request
-     * @param Lesson $article
+     * @param Lesson $lesson
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateLesson $request, Lesson $lesson)
@@ -128,6 +133,10 @@ class LessonController extends ApiController
         }
 
         $lesson->update($newLesson);
+
+//        if ($instructor instanceof Instructor) {
+//            $instructor->notify(new CreatedLesson($lesson));
+//        }
 
         return $this->respondWithTransformer($lesson);
     }

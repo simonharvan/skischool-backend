@@ -13,7 +13,6 @@ use App\Http\Requests\Api\DeleteLesson;
 use App\Http\Requests\Api\UpdateAttendance;
 use App\Http\Requests\Api\UpdateLesson;
 use App\Instructor;
-use App\Lesson;
 
 use App\SkiSchool\Filters\Admin\AttendanceFilter;
 use App\Skischool\Transformers\AttendanceTransformer;
@@ -111,7 +110,7 @@ class AttendanceController extends ApiController
      * Update the lesson given by its slug and return the article if successful.
      *
      * @param UpdateLesson $request
-     * @param Lesson $article
+     * @param Attendance $attendance
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateAttendance $request, Attendance $attendance)
