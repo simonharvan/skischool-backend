@@ -66,6 +66,7 @@ class DeviceController extends ApiController
                 'type' => $device['type'],
             ]);
 
+
             InstructorDevice::create([
                 'instructor_id' => Auth::id(),
                 'device_id' => $result['id']

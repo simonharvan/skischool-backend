@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\Api\CreateInstructor;
+use App\Http\Requests\Api\DeleteInstructor;
+use App\Http\Requests\Api\UpdateInstructor;
 use App\Instructor;
 use App\SkiSchool\Filters\Admin\InstructorFilter;
 
 use App\Skischool\Transformers\InstructorTransformer;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\In;
 
 class InstructorController extends ApiController
 {
@@ -36,71 +41,54 @@ class InstructorController extends ApiController
     /**
      * Create a new article and return the article if successful.
      *
-     * @param CreateArticle $request
+     * @param CreateInstructor $request
      * @return \Illuminate\Http\JsonResponse
      */
-//    public function store(CreateArticle $request)
-//    {
-//        $user = auth()->user();
+    public function store(CreateInstructor $request)
+    {
+
+        $request = $request->get('instructor');
+        $instructor = new Instructor();
+        $instructor->password = Hash::make($request['password']);
+        $instructor->email = $request['email'];
+        $instructor->phone = $request['phone'];
+        $instructor->name = $request['name'];
+        $instructor->teaching = $request['teaching'];
+        $instructor->gender = $request['gender'];
+
+        $instructor->save();
+
+        return $this->respondWithTransformer($instructor);
+    }
+
+
+    /**
+     * Update the article given by its id and return the article if successful.
+     *
+     * @param UpdateInstructor $request
+     * @param Instructor $instructor
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(UpdateInstructor $request, Instructor $instructor)
+    {
+        if ($request->has('instructor')) {
+            $instructor->update($request->get('instructor'));
+        }
+
+        return $this->respondWithTransformer($instructor);
+    }
 //
-//        $article = $user->articles()->create([
-//            'title' => $request->input('article.title'),
-//            'description' => $request->input('article.description'),
-//            'body' => $request->input('article.body'),
-//        ]);
-//
-//        $inputTags = $request->input('article.tagList');
-//
-//        if ($inputTags && ! empty($inputTags)) {
-//
-//            $tags = array_map(function($name) {
-//                return Tag::firstOrCreate(['name' => $name])->id;
-//            }, $inputTags);
-//
-//            $article->tags()->attach($tags);
-//        }
-//
-//        return $this->respondWithTransformer($article);
-//    }
-//
-//    /**
-//     * Get the article given by its slug.
-//     *
-//     * @param Article $article
-//     * @return \Illuminate\Http\JsonResponse
-//     */
-//    public function show(Article $article)
-//    {
-//        return $this->respondWithTransformer($article);
-//    }
-//
-//    /**
-//     * Update the article given by its slug and return the article if successful.
-//     *
-//     * @param UpdateArticle $request
-//     * @param Article $article
-//     * @return \Illuminate\Http\JsonResponse
-//     */
-//    public function update(UpdateArticle $request, Article $article)
-//    {
-//        if ($request->has('article')) {
-//            $article->update($request->get('article'));
-//        }
-//
-//        return $this->respondWithTransformer($article);
-//    }
-//
-//    /**
-//     * Delete the article given by its slug.
-//     *
-//     * @param DeleteArticle $request
-//     * @param Article $article
-//     * @return \Illuminate\Http\JsonResponse
-//     */
-//    public function destroy(DeleteArticle $request, Article $article)
-//    {
-//        $article->delete();
-//
-//        return $this->respondSuccess();
-//    }
+    /**
+     * Delete the instructor given by its id.
+     *
+     * @param DeleteInstructor $request
+     * @param Instructor $instructor
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(DeleteInstructor $request, Instructor $instructor)
+    {
+        $instructor->delete();
+
+        return $this->respondSuccess();
+    }
 }

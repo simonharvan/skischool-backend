@@ -9,7 +9,7 @@ use App\Http\Requests\Api\BulkDeleteAttendance;
 use App\Http\Requests\Api\CreateAttendance;
 use App\Http\Requests\Api\CreateLesson;
 use App\Http\Requests\Api\DeleteAttendance;
-use App\Http\Requests\Api\DeleteLesson;
+use App\Http\Requests\Api\DeleteInstructor;
 use App\Http\Requests\Api\UpdateAttendance;
 use App\Http\Requests\Api\UpdateLesson;
 use App\Instructor;
@@ -131,7 +131,7 @@ class AttendanceController extends ApiController
     /**
      * Delete the lesson return the success if successful.
      *
-     * @param DeleteLesson $request
+     * @param DeleteInstructor $request
      * @param Lesson $lesson
      * @return \Illuminate\Http\JsonResponse
      */

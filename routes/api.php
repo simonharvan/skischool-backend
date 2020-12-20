@@ -33,7 +33,7 @@ Route::group(['namespace' => 'Api'], function () {
 
             Route::resource('instructors', 'InstructorController', [
                 'only' => [
-                    'index'
+                    'index', 'store', 'update', 'destroy'
                 ]
             ]);
 
