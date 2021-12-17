@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Client;
 use App\Http\Controllers\Api\ApiController;
 use App\SkiSchool\Filters\Admin\ClientFilter;
+use App\SkiSchool\Paginate\Paginate;
 use App\Skischool\Transformers\ClientTransformer;
+use Illuminate\Http\JsonResponse;
 
 
 class ClientController extends ApiController
@@ -21,24 +23,18 @@ class ClientController extends ApiController
     }
 
     /**
-     * Get all the instructors.
+     * Get all the clients.
      *
      * @param ClientFilter $filter
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(ClientFilter $filter)
     {
-        $instructors = Client::filter($filter)->get();
+        $clients = new Paginate(Client::filter($filter));
 
-        return $this->respondWithTransformer($instructors);
+        return $this->respondWithPagination($clients);
     }
 
-    /**
-     * Create a new article and return the article if successful.
-     *
-     * @param CreateArticle $request
-     * @return \Illuminate\Http\JsonResponse
-     */
 //    public function store(CreateArticle $request)
 //    {
 //        $user = auth()->user();
