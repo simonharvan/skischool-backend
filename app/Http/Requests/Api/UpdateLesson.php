@@ -28,6 +28,7 @@ class UpdateLesson extends ApiRequest
             'type' => 'required|in:ski,snb',
             'price' => 'required|numeric',
             'status' => 'in:unpaid,paid',
+            'note' => 'string',
             'instructor_id' => 'required|numeric',
         ];
     }

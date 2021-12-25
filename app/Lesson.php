@@ -10,13 +10,14 @@ class Lesson extends Model
 {
 
     use Filterable, SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'from', 'to', 'name', 'type', 'price', 'status', 'instructor_id', 'client_id'
+        'from', 'to', 'name', 'type', 'price', 'status', 'note', 'instructor_id', 'client_id'
     ];
 
     public function instructor()

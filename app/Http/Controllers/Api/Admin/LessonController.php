@@ -55,8 +55,8 @@ class LessonController extends ApiController
             try {
                 $client = Client::create([
                     'name' => $client['name'],
-                    'email' => $client['email'],
-                    'phone' => $client['phone'],
+                    'email' => !empty($client['email']) ? $client['email'] : null,
+                    'phone' => !empty($client['phone']) ? $client['phone'] : null,
                     'phone_2' => !empty($client['phone_2']) ? $client['phone_2'] : null,
                 ]);
             } catch (QueryException $e) {
@@ -86,6 +86,7 @@ class LessonController extends ApiController
             'name' => !isset($lesson['name']) ? $client['name'] : $lesson['name'],
             'type' => $lesson['type'],
             'price' => $lesson['price'],
+            'note' => !empty($lesson['note']) ? $lesson['note'] : null,
             'status' => 'unpaid',
             'instructor_id' => $instructor['id'],
             'client_id' => $client['id']
@@ -121,6 +122,7 @@ class LessonController extends ApiController
             'to' => $newLesson['to'],
             'price' => $newLesson['price'],
             'type' => $newLesson['type'],
+            'note' => $newLesson['note'],
             'instructor_id' => $newLesson['instructor_id'],
         ];
 
