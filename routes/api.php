@@ -39,7 +39,7 @@ Route::group(['namespace' => 'Api'], function () {
 
             Route::resource('clients', 'ClientController', [
                 'only' => [
-                    'index'
+                    'index', 'update'
                 ]
             ]);
             Route::get('lessons/{lesson}/prepare-pay', 'LessonController@preparePay');

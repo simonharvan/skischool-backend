@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Client;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\Api\UpdateClient;
 use App\SkiSchool\Filters\Admin\ClientFilter;
 use App\SkiSchool\Paginate\Paginate;
 use App\Skischool\Transformers\ClientTransformer;
@@ -70,21 +71,21 @@ class ClientController extends ApiController
 //        return $this->respondWithTransformer($article);
 //    }
 //
-//    /**
-//     * Update the article given by its slug and return the article if successful.
-//     *
-//     * @param UpdateArticle $request
-//     * @param Article $article
-//     * @return \Illuminate\Http\JsonResponse
-//     */
-//    public function update(UpdateArticle $request, Article $article)
-//    {
-//        if ($request->has('article')) {
-//            $article->update($request->get('article'));
-//        }
-//
-//        return $this->respondWithTransformer($article);
-//    }
+    /**
+     * Update the article given by its slug and return the article if successful.
+     *
+     * @param UpdateClient $request
+     * @param Client $article
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(UpdateClient $request, Client $client)
+    {
+        if ($request->has('client')) {
+            $client->update($request->get('client'));
+        }
+
+        return $this->respondWithTransformer($client);
+    }
 //
 //    /**
 //     * Delete the article given by its slug.
