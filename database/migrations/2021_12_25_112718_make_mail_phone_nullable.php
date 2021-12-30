@@ -14,7 +14,7 @@ class MakeMailPhoneNullable extends Migration
     public function up()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->string('email')->nullable()->unique()->change();
+            $table->string('email')->nullable()->change();
             $table->string('phone')->nullable()->change();
         });
     }

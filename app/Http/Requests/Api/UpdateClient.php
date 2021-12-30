@@ -23,9 +23,9 @@ class UpdateClient extends ApiRequest
     {
         return [
             'name' => 'string',
-            'email' => 'email',
-            'phone' => 'string',
-            'phone_2' => 'string',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string',
+            'phone_2' => 'nullable|string',
         ];
     }
 }
