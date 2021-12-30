@@ -54,7 +54,7 @@ class LessonController extends ApiController
         if (!isset($client['id'])) {
             try {
                 $client = Client::create([
-                    'name' => $client['name'],
+                    'name' => ucwords($client['name']),
                     'email' => !empty($client['email']) ? $client['email'] : null,
                     'phone' => !empty($client['phone']) ? $client['phone'] : null,
                     'phone_2' => !empty($client['phone_2']) ? $client['phone_2'] : null,
@@ -83,7 +83,7 @@ class LessonController extends ApiController
         $result = Lesson::create([
             'from' => $lesson['from'],
             'to' => $lesson['to'],
-            'name' => !isset($lesson['name']) ? $client['name'] : $lesson['name'],
+            'name' => !isset($lesson['name']) ? ucwords($client['name']) : ucwords($lesson['name']),
             'type' => $lesson['type'],
             'price' => $lesson['price'],
             'note' => !empty($lesson['note']) ? $lesson['note'] : null,
@@ -127,7 +127,7 @@ class LessonController extends ApiController
         ];
 
         if (!empty($request->get('lesson')['name'])) {
-            $newLesson['name'] = $request->get('lesson')['name'];
+            $newLesson['name'] = ucwords($request->get('lesson')['name']);
         }
 
         if (!empty($request->get('lesson')['status'])) {
