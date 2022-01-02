@@ -58,6 +58,15 @@ abstract class Filter
     }
 
     /**
+     * Get filter by param name
+     *
+     * @return array
+     */
+    public function get($paramName)
+    {
+        return $this->request->get($paramName);
+    }
+    /**
      * Apply all the requested filters if available.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder

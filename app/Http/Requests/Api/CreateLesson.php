@@ -27,7 +27,7 @@ class CreateLesson extends ApiRequest
             'name' => 'string|max:255',
             'type' => 'required|in:ski,snb',
             'price' => 'required|numeric',
-            'persons_count' => 'numeric|min:1',
+            'persons_count' => 'numeric|min:1|max:4',
             'note' => 'string',
             'client.id' => 'required_without:client.name|numeric',
             'client.name' => 'required_without:client.id|string',

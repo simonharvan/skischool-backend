@@ -7,6 +7,7 @@ use App\Client;
 use App\Http\Controllers\Api\ApiController;
 use App\Instructor;
 use App\Lesson;
+use App\SkiSchool\Filters\Admin\StatsFilter;
 use App\Skischool\Transformers\StatsTransformer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -27,15 +28,22 @@ class StatsController extends ApiController
     /**
      * Get all the instructors.
      *
+     * @param StatsFilter $filter
      * @return \Illuminate\Http\JsonResponse
      */
-    public function stats()
+    public function stats(StatsFilter $filter)
     {
-        $monthAgo = Carbon::now();
-        $monthAgo->subMonth();
-        $data['clients'] = Client::query()->where('created_at', '>=', $monthAgo)->count();
+        $query = Client::query();
+        if (!empty($filter->get('from'))) {
+            $query = $query->where('created_at', '>=', $filter->get('from'));
+        }
+        if (!empty($filter->get('to'))) {
+            $query = $query->where('created_at', '<=', $filter->get('to'));
+        }
 
-        $lessons = Lesson::query()->where('from', '>=', $monthAgo)->get();
+        $data['clients'] = $query->count();
+
+        $lessons = Lesson::filter($filter)->get();
 
         $diff = 0;
         foreach ($lessons as $lesson) {
@@ -44,14 +52,12 @@ class StatsController extends ApiController
 
         $data['duration'] = $diff;
 
-        $data['unpaid'] = Lesson::query()->where('status', '=', 'unpaid')->sum('price');
-        $data['paid'] = Lesson::query()
-            ->where('from', '>=', $monthAgo)
+        $data['unpaid'] = Lesson::filter($filter)->where('status', '=', 'unpaid')->sum('price');
+        $data['paid'] = Lesson::filter($filter)
             ->where('status', '=', 'paid')->sum('price');
 
-        $lesson = Lesson::query()
+        $lesson = Lesson::filter($filter)
             ->select('instructor_id', DB::raw('sum(price) as earned'))
-            ->where('created_at', '>=', $monthAgo)
             ->groupBy('instructor_id')
             ->orderBy('earned', 'DESC')
             ->first();
@@ -61,8 +67,7 @@ class StatsController extends ApiController
             $data['best_instructor_duration'] = 0;
         } else {
             $data['best_instructor'] = Instructor::firstWhere('id', '=', $lesson->instructor_id)->name;
-            $instructorsLessons = Lesson::query()
-                ->where('from', '>=', $monthAgo)
+            $instructorsLessons = Lesson::filter($filter)
                 ->where('instructor_id', '=', $lesson->instructor_id)
                 ->get();
 
@@ -79,31 +84,36 @@ class StatsController extends ApiController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function instructorsStats()
+    public function instructorsStats(StatsFilter $filter)
     {
-        $monthAgo = Carbon::now();
-        $monthAgo->subMonth();
-
         $instructors = Instructor::query()->where('email', '<>', 'docasny@instruktor.sk')->get();
         $data = [];
         foreach ($instructors as $instructor) {
-            $lessons = Lesson::query()
-                ->where('from', '>=', $monthAgo)
+            $lessons = Lesson::filter($filter)
                 ->where('instructor_id', '=', $instructor->id)
                 ->get();
 
             $diff = 0;
             $total = $lessons->sum('price');
+            $minutesByPersons = [
+                'persons_1' => 0,
+                'persons_2' => 0,
+                'persons_3' => 0,
+                'persons_4' => 0
+            ];
             foreach ($lessons as $lesson) {
-                $diff = $diff + Carbon::parse($lesson->from)->diffInMinutes(Carbon::parse($lesson->to));
+                $minutes = Carbon::parse($lesson->from)->diffInMinutes(Carbon::parse($lesson->to));
+                $diff = $diff + $minutes;
+
+                $minutesByPersons['persons_' . $lesson->persons_count] += $minutes;
             }
             $data[] = [
                 'name' => $instructor->name,
                 'duration' => $diff,
-                'total' => $total
+                'total' => $total,
+                'duration_by_persons' => $minutesByPersons
             ];
         }
-
 
 
         return $this->respondWithTransformer($data);

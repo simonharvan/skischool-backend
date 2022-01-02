@@ -27,7 +27,7 @@ class UpdateLesson extends ApiRequest
             'name' => 'string|max:255',
             'type' => 'required|in:ski,snb',
             'price' => 'required|numeric',
-            'persons_count' => 'numeric|min:1',
+            'persons_count' => 'numeric|min:1|max:4',
             'status' => 'in:unpaid,paid',
             'note' => 'nullable|string',
             'instructor_id' => 'required|numeric',
