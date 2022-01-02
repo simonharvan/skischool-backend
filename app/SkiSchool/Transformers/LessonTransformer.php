@@ -22,6 +22,7 @@ class LessonTransformer extends Transformer
             'type' => $data['type'],
             'price' => $data['price'],
             'status' => $data['status'],
+            'persons_count' => $data['persons_count'],
             'note' => $data['note'],
             'instructor' => $instructorTransformer->transform($data['instructor']),
             'client' => $clientTransformer->transform($data['client']),

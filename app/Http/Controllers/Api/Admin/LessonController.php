@@ -62,7 +62,19 @@ class LessonController extends ApiController
             } catch (QueryException $e) {
                 $errorCode = $e->errorInfo[1];
                 if ($errorCode == 1062) {
-                    $client = Client::where('email', '=', $client['email'])->orWhere('phone', '=', $client['phone'])->first();
+                    $query = Client::query();
+                    if (!empty($client['email'])) {
+                        $query = $query->orWhere('email', '=', $client['email']);
+                    }
+
+                    if (!empty($client['phone'])) {
+                        $query = $query->orWhere('phone', '=', $client['phone']);
+                    }
+
+                    if (!empty($client['phone_2'])) {
+                        $query = $query->orWhere('phone_2', '=', $client['phone_2']);
+                    }
+                    $client = $query->first();
                 } else {
                     return $this->respondInternalError('Problem creating client: ' . $e->getMessage());
                 }
@@ -86,6 +98,7 @@ class LessonController extends ApiController
             'name' => !isset($lesson['name']) ? ucwords($client['name']) : ucwords($lesson['name']),
             'type' => $lesson['type'],
             'price' => $lesson['price'],
+            'persons_count' => !empty($lesson['persons_count']) ? $lesson['persons_count'] : 1,
             'note' => !empty($lesson['note']) ? $lesson['note'] : null,
             'status' => 'unpaid',
             'instructor_id' => $instructor['id'],
@@ -128,6 +141,10 @@ class LessonController extends ApiController
 
         if (!empty($request->get('lesson')['name'])) {
             $newLesson['name'] = ucwords($request->get('lesson')['name']);
+        }
+
+        if (!empty($request->get('lesson')['persons_count'])) {
+            $newLesson['persons_count'] = $request->get('lesson')['persons_count'];
         }
 
         if (!empty($request->get('lesson')['status'])) {
