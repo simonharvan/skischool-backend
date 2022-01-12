@@ -70,6 +70,12 @@ class AuthController extends ApiController
         return response()->json(['message' => 'Successfully logged out']);
     }
 
+
+    public function me()
+    {
+        return auth()->user();
+    }
+
     protected function respondWithToken($token)
     {
         return response()->json([

@@ -19,9 +19,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::post('auth/login', ['as' => 'admin.login', 'uses' => 'AuthController@login']);
         Route::group(['middleware' => ['assign.guard:api', 'auth.api']], function () {
-            Route::get('/me', function (Request $request) {
-                return $request->user();
-            });
+            Route::get('/me','AuthController@me');
 
             Route::post('auth/logout', 'AuthController@logout');
 
@@ -63,15 +61,9 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('auth/login', ['as' => 'instructor.login', 'uses' => 'AuthController@login']);
         Route::group(['middleware' => ['assign.guard:instructors', 'auth.instructor']], function () {
             Route::post('auth/logout', 'AuthController@logout');
-            Route::get('/me', function (Request $request) {
-                return $request->user();
-            });
+            Route::get('/me', 'AuthController@me');
 
-            Route::resource('lessons', 'LessonController', [
-                'only' => [
-                    'index'
-                ]
-            ]);
+            Route::get('lessons', 'LessonController@index');
             Route::resource('devices', 'DeviceController', [
                 'only' => [
                     'index', 'store'
