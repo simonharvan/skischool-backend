@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Client;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\LessonsTimeHelper;
 use App\Instructor;
 use App\Lesson;
 use App\SkiSchool\Filters\Admin\StatsFilter;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class StatsController extends ApiController
 {
+    use LessonsTimeHelper;
     /**
      * InstructorController constructor.
      *
@@ -71,11 +73,7 @@ class StatsController extends ApiController
                 ->where('instructor_id', '=', $lesson->instructor_id)
                 ->get();
 
-            $diff = 0;
-            foreach ($instructorsLessons as $lesson) {
-                $diff = $diff + Carbon::parse($lesson->from)->diffInMinutes(Carbon::parse($lesson->to));
-            }
-            $data['best_instructor_duration'] = $diff;
+            $data['best_instructor_duration'] = $this->getTotalTime($instructorsLessons);
         }
 
         return $this->respondWithTransformer($data);
@@ -95,18 +93,7 @@ class StatsController extends ApiController
 
             $diff = 0;
             $total = $lessons->sum('price');
-            $minutesByPersons = [
-                'persons_1' => 0,
-                'persons_2' => 0,
-                'persons_3' => 0,
-                'persons_4' => 0
-            ];
-            foreach ($lessons as $lesson) {
-                $minutes = Carbon::parse($lesson->from)->diffInMinutes(Carbon::parse($lesson->to));
-                $diff = $diff + $minutes;
-
-                $minutesByPersons['persons_' . $lesson->persons_count] += $minutes;
-            }
+            $minutesByPersons = $this->getTotalTimeByPersons($lessons);
             $data[] = [
                 'name' => $instructor->name,
                 'duration' => $diff,

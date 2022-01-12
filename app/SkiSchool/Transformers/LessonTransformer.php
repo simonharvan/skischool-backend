@@ -10,11 +10,19 @@ class LessonTransformer extends Transformer
 {
     protected $resourceName = 'lesson';
 
-    public function transform($data)
+    private $transformAdditional;
+
+    public function __construct($transformAdditional = true)
+    {
+        $this->transformAdditional = $transformAdditional;
+    }
+
+    public function transform($data, $transformInstructor = true, $transformClient = true)
     {
         $instructorTransformer = new InstructorTransformer();
         $clientTransformer = new ClientTransformer();
-        return [
+
+        $json = [
             'id' => $data['id'],
             'from' => $data['from'],
             'to' => $data['to'],
@@ -23,9 +31,13 @@ class LessonTransformer extends Transformer
             'price' => $data['price'],
             'status' => $data['status'],
             'persons_count' => $data['persons_count'],
-            'note' => $data['note'],
-            'instructor' => $instructorTransformer->transform($data['instructor']),
-            'client' => $clientTransformer->transform($data['client']),
+            'note' => $data['note']
         ];
+
+        if ($this->transformAdditional) {
+            $json['instructor'] = $instructorTransformer->transform($data['instructor']);
+            $json['client'] = $clientTransformer->transform($data['client']);
+        }
+        return $json;
     }
 }

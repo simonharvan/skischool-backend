@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\SkiSchool\Filters\Admin\PayoutFilter;
 use App\SkiSchool\Filters\Filterable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,7 +43,6 @@ class Instructor extends Authenticatable implements JWTSubject
     public function lessons() {
         return $this->hasMany(Lesson::class)->latest();
     }
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough

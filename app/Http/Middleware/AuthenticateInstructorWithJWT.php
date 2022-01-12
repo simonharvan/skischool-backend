@@ -26,8 +26,8 @@ class AuthenticateInstructorWithJWT extends BaseMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @param bool $optional
      * @return mixed
      */
@@ -36,7 +36,7 @@ class AuthenticateInstructorWithJWT extends BaseMiddleware
         $this->auth->setRequest($request);
 
         try {
-            if (! $user = $this->auth->parseToken('token')->authenticate()) {
+            if (!$user = $this->auth->parseToken('token')->authenticate()) {
                 return $this->respondError('JWT error: User not found');
             }
         } catch (TokenExpiredException $e) {

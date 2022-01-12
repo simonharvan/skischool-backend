@@ -9,6 +9,7 @@ use App\Http\Requests\Api\UpdateInstructor;
 use App\Instructor;
 use App\SkiSchool\Filters\Admin\InstructorFilter;
 
+use App\SkiSchool\Filters\Admin\PayoutFilter;
 use App\Skischool\Transformers\InstructorTransformer;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\In;
