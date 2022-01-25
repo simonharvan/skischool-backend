@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\UpdateClient;
 use App\SkiSchool\Filters\Admin\ClientFilter;
 use App\SkiSchool\Paginate\Paginate;
-use App\Skischool\Transformers\ClientTransformer;
+use App\SkiSchool\Transformers\ClientTransformer;
 use Illuminate\Http\JsonResponse;
 
 

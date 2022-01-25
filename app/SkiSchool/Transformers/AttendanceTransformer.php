@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Skischool\Transformers;
+namespace App\SkiSchool\Transformers;
 
 use App\SkiSchool\Transformers\Transformer;
 use App\SkiSchool\Transformers\InstructorTransformer;
@@ -12,7 +12,6 @@ class AttendanceTransformer extends Transformer
     public function transform($data)
     {
         $instructorTransformer = new InstructorTransformer();
-
         return [
             'id' => $data['id'],
             'from' => $data['from'],

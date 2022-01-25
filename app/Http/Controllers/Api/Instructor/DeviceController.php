@@ -10,7 +10,7 @@ use App\InstructorDevice;
 use App\Lesson;
 use App\SkiSchool\Filters\Instructor\LessonFilter;
 use App\SkiSchool\Paginate\Paginate;
-use App\Skischool\Transformers\DeviceTransformer;
+use App\SkiSchool\Transformers\DeviceTransformer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\In;

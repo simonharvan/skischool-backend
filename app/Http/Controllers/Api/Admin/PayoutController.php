@@ -11,8 +11,8 @@ use App\Instructor;
 use App\SkiSchool\Filters\Admin\InstructorFilter;
 
 use App\SkiSchool\Filters\Admin\PayoutFilter;
-use App\Skischool\Transformers\InstructorTransformer;
-use App\Skischool\Transformers\PayoutTransformer;
+use App\SkiSchool\Transformers\InstructorTransformer;
+use App\SkiSchool\Transformers\PayoutTransformer;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\In;
 

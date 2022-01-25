@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Skischool\Transformers;
+namespace App\SkiSchool\Transformers;
 
 use App\SkiSchool\Transformers\Transformer;
 
@@ -11,9 +11,9 @@ class UserTransformer extends Transformer
     public function transform($data)
     {
         return [
-            'email'     => $data['email'],
-            'token'     => $data['remember_token'],
-            'name'  => $data['name']
+            'email' => $data['email'],
+            'token' => $data['remember_token'],
+            'name' => $data['name']
         ];
     }
 }

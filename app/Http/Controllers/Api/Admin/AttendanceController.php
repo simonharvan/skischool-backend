@@ -15,7 +15,7 @@ use App\Http\Requests\Api\UpdateLesson;
 use App\Instructor;
 
 use App\SkiSchool\Filters\Admin\AttendanceFilter;
-use App\Skischool\Transformers\AttendanceTransformer;
+use App\SkiSchool\Transformers\AttendanceTransformer;
 
 class AttendanceController extends ApiController
 {

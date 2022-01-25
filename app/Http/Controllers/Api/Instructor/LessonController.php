@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Lesson;
 use App\SkiSchool\Filters\Instructor\LessonFilter;
 use App\SkiSchool\Paginate\Paginate;
-use App\Skischool\Transformers\LessonTransformer;
+use App\SkiSchool\Transformers\LessonTransformer;
 use Illuminate\Support\Facades\Auth;
 
 class LessonController extends ApiController

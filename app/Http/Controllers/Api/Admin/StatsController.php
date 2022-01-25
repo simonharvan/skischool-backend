@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\LessonsTimeHelper;
 use App\Instructor;
 use App\Lesson;
 use App\SkiSchool\Filters\Admin\StatsFilter;
-use App\Skischool\Transformers\StatsTransformer;
+use App\SkiSchool\Transformers\StatsTransformer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 

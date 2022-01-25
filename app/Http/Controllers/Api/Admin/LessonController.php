@@ -12,7 +12,7 @@ use App\Instructor;
 use App\Lesson;
 use App\SkiSchool\Filters\Admin\LessonFilter;
 use App\SkiSchool\Notifications\CreatedLesson;
-use App\Skischool\Transformers\LessonTransformer;
+use App\SkiSchool\Transformers\LessonTransformer;
 use Illuminate\Database\QueryException;
 
 class LessonController extends ApiController

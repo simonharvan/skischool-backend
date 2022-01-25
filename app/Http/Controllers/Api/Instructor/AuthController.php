@@ -7,7 +7,7 @@ use App\Device;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\LoginInstructor;
 use App\Instructor;
-use App\Skischool\Transformers\InstructorTransformer;
+use App\SkiSchool\Transformers\InstructorTransformer;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Api\LoginUser;
 use App\SkiSchool\Transformers\UserTransformer;

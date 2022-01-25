@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Skischool\Transformers;
+namespace App\SkiSchool\Transformers;
 
 use App\SkiSchool\Transformers\Transformer;
 use App\SkiSchool\Transformers\InstructorTransformer;
