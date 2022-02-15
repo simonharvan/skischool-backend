@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::group(['namespace' => 'Api'], function () {
     Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::post('auth/login', ['as' => 'admin.login', 'uses' => 'AuthController@login']);

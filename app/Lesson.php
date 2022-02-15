@@ -29,4 +29,15 @@ class Lesson extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function messages() {
+        return $this->hasManyThrough(Message::class, LessonMessage::class, 'lesson_id', 'id', 'id', 'message_id');
+    }
+
+    public function changes() {
+        return $this->hasMany(LessonChange::class);
+    }
 }

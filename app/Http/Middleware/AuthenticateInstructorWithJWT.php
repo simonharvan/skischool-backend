@@ -15,10 +15,10 @@ namespace App\Http\Middleware;
 
 use App\Instructor;
 use Closure;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
-use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenInvalidException;
+use PHPOpenSourceSaver\JWTAuth\Http\Middleware\BaseMiddleware;
 
 
 class AuthenticateInstructorWithJWT extends BaseMiddleware

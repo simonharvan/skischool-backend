@@ -10,10 +10,15 @@ use App\Http\Requests\Api\PayLessons;
 use App\Http\Requests\Api\UpdateLesson;
 use App\Instructor;
 use App\Lesson;
+use App\LessonChange;
+use App\Message;
 use App\SkiSchool\Filters\Admin\LessonFilter;
 use App\SkiSchool\Notifications\CreatedLesson;
 use App\SkiSchool\Transformers\LessonTransformer;
+use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class LessonController extends ApiController
 {
@@ -150,12 +155,30 @@ class LessonController extends ApiController
         if (!empty($request->get('lesson')['status'])) {
             $newLesson['status'] = $request->get('lesson')['status'];
         }
+        $oldLesson = $lesson->toArray();
 
-        $lesson->update($newLesson);
-
-//        if ($instructor instanceof Instructor) {
-//            $instructor->notify(new CreatedLesson($lesson));
-//        }
+        if ($lesson->update($newLesson)) {
+            $changes = $lesson->getChanges();
+            DB::beginTransaction();
+            try {
+                foreach ($changes as $key => $change) {
+                    if ($key == 'updated_at') {
+                        continue;
+                    }
+                    LessonChange::create([
+                        'field' => $key,
+                        'old_value' => $oldLesson[$key],
+                        'new_value' => $change,
+                        'lesson_id' => $lesson['id'],
+                        'created_at' => now()
+                    ]);
+                }
+                DB::commit();
+            } catch (Exception $e) {
+                DB::rollback();
+                return $this->respondError($e->getMessage(), 422);
+            }
+        }
 
         return $this->respondWithTransformer($lesson);
     }
