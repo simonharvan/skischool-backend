@@ -13,7 +13,7 @@ class SmsSender
 
     public function __construct()
     {
-        $connection = new Connection(env('BULK_GATE_APP_ID', ''), env('BULK_GATE_APP_TOKEN', ''));
+        $connection = new Connection(env('BULK_GATE_APP_ID', 0), env('BULK_GATE_APP_TOKEN', ''));
 
         $this->sender = new Sender($connection);
     }
