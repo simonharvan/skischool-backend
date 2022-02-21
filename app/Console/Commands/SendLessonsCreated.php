@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Client;
+use App\Console\SmsSender;
 use App\Lesson;
 use App\LessonMessage;
 use App\Message;

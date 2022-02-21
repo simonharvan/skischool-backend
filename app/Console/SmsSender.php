@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console;
 
 use BulkGate\Message\Connection;
 use BulkGate\Sms\Message as GateMessage;
