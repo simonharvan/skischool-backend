@@ -18,8 +18,7 @@
         "laravel-notification-channels/fcm": "~2.0",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
-        "php-open-source-saver/jwt-auth": "^1.4",
-        "sentry/sentry-laravel": "^2.10"
+        "php-open-source-saver/jwt-auth": "^1.4"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
