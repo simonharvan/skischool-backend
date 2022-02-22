@@ -20,7 +20,7 @@ class Message extends Model
     const TYPE_UPDATED = 'updated';
     const TYPE_ERROR = 'error';
 
-    use Filterable, SoftDeletes;
+    use Filterable;
 
     /**
      * The attributes that are mass assignable.
