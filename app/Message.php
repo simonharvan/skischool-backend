@@ -22,13 +22,15 @@ class Message extends Model
 
     use Filterable;
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'type', 'text', 'phone'
+        'type', 'text', 'phone', 'created_at'
     ];
 
     /**

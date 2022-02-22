@@ -14,6 +14,7 @@ use BulkGate\Sms\Message as GateMessage;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -165,7 +166,8 @@ class SendLessonsUpdated extends Command
             Message::create([
                 'type' => Message::TYPE_ERROR,
                 'text' => $e->getCode() . ' ' . $e->getMessage(),
-                'phone' => $phone
+                'phone' => $phone,
+                'created_at' => Date::now()
             ]);
         }
     }

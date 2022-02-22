@@ -13,6 +13,7 @@ use BulkGate\Sms\Message as GateMessage;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -101,7 +102,8 @@ class SendLessonsCreated extends Command
             $result = Message::create([
                 'type' => Message::TYPE_CREATED,
                 'text' => $this->createText($lessons),
-                'phone' => $phone
+                'phone' => $phone,
+                'created_at' => Date::now()
             ]);
 
             foreach ($lessons as $lesson) {
