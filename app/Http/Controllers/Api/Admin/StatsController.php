@@ -54,9 +54,9 @@ class StatsController extends ApiController
 
         $data['duration'] = $diff;
 
-        $data['unpaid'] = Lesson::filter($filter)->where('status', '=', 'unpaid')->sum('price');
+        $data['unpaid'] = Lesson::filter($filter)->where('status', '=', Lesson::TYPE_UNPAID)->sum('price');
         $data['paid'] = Lesson::filter($filter)
-            ->where('status', '=', 'paid')->sum('price');
+            ->where('status', '=', Lesson::TYPE_PAID)->sum('price');
 
         $lesson = Lesson::filter($filter)
             ->select('instructor_id', DB::raw('sum(price) as earned'))

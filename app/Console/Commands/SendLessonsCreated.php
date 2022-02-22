@@ -57,6 +57,7 @@ class SendLessonsCreated extends Command
 
         $lessons = Lesson::query()
             ->where('created_at', '<', $now->subMinutes(30))
+            ->where('status', '=', Lesson::TYPE_UNPAID)
             ->get();
 
         $filteredLessons = [];

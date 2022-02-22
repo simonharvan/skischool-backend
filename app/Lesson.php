@@ -11,6 +11,9 @@ class Lesson extends Model
 
     use Filterable, SoftDeletes;
 
+    const TYPE_PAID = 'paid';
+    const TYPE_UNPAID = 'unpaid';
+
     /**
      * The attributes that are mass assignable.
      *

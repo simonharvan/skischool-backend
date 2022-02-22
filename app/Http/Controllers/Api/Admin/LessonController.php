@@ -105,7 +105,7 @@ class LessonController extends ApiController
             'price' => $lesson['price'],
             'persons_count' => !empty($lesson['persons_count']) ? $lesson['persons_count'] : 1,
             'note' => !empty($lesson['note']) ? $lesson['note'] : null,
-            'status' => 'unpaid',
+            'status' => Lesson::TYPE_UNPAID,
             'instructor_id' => $instructor['id'],
             'client_id' => $client['id']
         ]);
@@ -201,7 +201,7 @@ class LessonController extends ApiController
     {
         $unpaid = Lesson::query()
             ->where('client_id', '=', $lesson->client_id)
-            ->where('status', '=', 'unpaid')
+            ->where('status', '=', Lesson::TYPE_UNPAID)
             ->get();
 
         return $this->respondWithTransformer($unpaid);
@@ -211,7 +211,7 @@ class LessonController extends ApiController
     {
         $lessons = $request->get('lesson');
         $update = [
-            'status' => 'paid'
+            'status' => Lesson::TYPE_PAID
         ];
 
         if (isset($lessons['price'])) {
