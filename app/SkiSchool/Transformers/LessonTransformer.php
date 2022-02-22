@@ -10,14 +10,16 @@ class LessonTransformer extends Transformer
 {
     protected $resourceName = 'lesson';
 
-    private $transformAdditional;
+    private $transformClient;
+    private $transformInstructor;
 
-    public function __construct($transformAdditional = true)
+    public function __construct($transformClient = true, $transformInstructor = true)
     {
-        $this->transformAdditional = $transformAdditional;
+        $this->transformClient = $transformClient;
+        $this->transformInstructor = $transformInstructor;
     }
 
-    public function transform($data, $transformInstructor = true, $transformClient = true)
+    public function transform($data)
     {
         $instructorTransformer = new InstructorTransformer();
         $clientTransformer = new ClientTransformer();
@@ -34,9 +36,11 @@ class LessonTransformer extends Transformer
             'note' => $data['note']
         ];
 
-        if ($this->transformAdditional) {
-            $json['instructor'] = $instructorTransformer->transform($data['instructor']);
+        if ($this->transformClient) {
             $json['client'] = $clientTransformer->transform($data['client']);
+        }
+        if ($this->transformInstructor) {
+            $json['instructor'] = $instructorTransformer->transform($data['instructor']);
         }
         return $json;
     }

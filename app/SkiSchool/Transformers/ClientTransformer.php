@@ -11,7 +11,7 @@ class ClientTransformer extends Transformer
     public function transform($data)
     {
         return [
-            'id' => $data['id'],
+            'id' => $data->slug(),
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],

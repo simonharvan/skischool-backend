@@ -70,4 +70,8 @@ Route::group(['namespace' => 'Api'], function () {
             ]);
         });
     });
+
+    Route::group(['namespace' => 'Clients', 'prefix' => 'clients'], function () {
+        Route::get('clients/{client}/lessons', 'ClientController@lessons');
+    });
 });

@@ -3,12 +3,13 @@
 namespace App;
 
 use App\SkiSchool\Filters\Filterable;
+use Balping\HashSlug\HasHashSlug;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Client extends Authenticatable
 {
 
-    use Filterable;
+    use Filterable, HasHashSlug;
 
     /**
      * The attributes that are mass assignable.

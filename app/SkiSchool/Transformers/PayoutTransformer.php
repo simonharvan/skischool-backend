@@ -10,7 +10,7 @@ class PayoutTransformer extends Transformer
 
     public function transform($data)
     {
-        $lessonTransformer = new LessonTransformer(false);
+        $lessonTransformer = new LessonTransformer(false, false);
         $instructorTransformer = new InstructorTransformer();
 
         $lessonData = $data['lessons']->map([$lessonTransformer, 'transform']);
