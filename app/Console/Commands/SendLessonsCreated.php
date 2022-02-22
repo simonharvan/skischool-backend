@@ -59,7 +59,7 @@ class SendLessonsCreated extends Command
             ->where('created_at', '<', $now->subMinutes(30))
             ->where('status', '=', Lesson::TYPE_UNPAID)
             ->get();
-
+        Log::info('LessonsCreated:' . json_encode($lessons));
         $filteredLessons = [];
         foreach ($lessons as $lesson) {
             $from = Carbon::parse($lesson['from']);
@@ -67,6 +67,7 @@ class SendLessonsCreated extends Command
                 $filteredLessons[] = $lesson;
             }
         }
+        Log::info('LessonsCreated.filtered:' . json_encode($filteredLessons));
 
         $clientsLessons = [];
         foreach ($filteredLessons as $lesson) {
@@ -75,6 +76,7 @@ class SendLessonsCreated extends Command
             }
             $clientsLessons[$lesson['client_id']][] = $lesson;
         }
+        Log::info('LessonsCreated.clientLessons:' . json_encode($filteredLessons));
 
         foreach ($clientsLessons as $clientId => $lessons) {
             $client = Client::find($clientId);
