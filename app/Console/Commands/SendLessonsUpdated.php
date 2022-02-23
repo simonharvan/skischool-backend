@@ -149,7 +149,8 @@ class SendLessonsUpdated extends Command
             $result = Message::create([
                 'type' => Message::TYPE_UPDATED,
                 'text' => $this->createText($lessonsWithChanges),
-                'phone' => $phone
+                'phone' => $phone,
+                'created_at' => Date::now()
             ]);
 
             foreach ($lessonsWithChanges as $lessonsWithChanges) {
@@ -174,7 +175,7 @@ class SendLessonsUpdated extends Command
 
     private function createText($lessonsWithChanges): string
     {
-        if (count($lessonsWithChanges) > 1) {
+        if (count($lessonsWithChanges) == 1) {
             $text = 'Dobrý deň, 1 vašej hodine sa zmenil čas: ';
         } else {
             $text = 'Dobrý deň, ' . count($lessonsWithChanges) .' vašim hodínám za zmenil čas: ';
