@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('send:lessonsUpdated')
             ->everyFiveMinutes()
-            ->between('7:00', '19:00');;
+            ->between('7:00', '19:00');
     }
 
     /**
