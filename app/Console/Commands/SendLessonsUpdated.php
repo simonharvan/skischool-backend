@@ -108,6 +108,7 @@ class SendLessonsUpdated extends Command
                     reset($filteredChanges)['field'] == end($filteredChanges)['field']
                 ) ||
                 $from->isCurrentDay() ||
+                $from->isPast() ||
                 $lesson['status'] == Lesson::TYPE_PAID
             ) {
                 continue;

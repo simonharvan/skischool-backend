@@ -57,6 +57,7 @@ class SendLessonsCreated extends Command
         $now = Carbon::now();
 
         $lessons = Lesson::query()
+            ->where('from', '>', $now)
             ->where('created_at', '<', $now->subMinutes(30))
             ->where('status', '=', Lesson::TYPE_UNPAID)
             ->get();
