@@ -27,8 +27,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('send:lessonsCreated')->everyFiveMinutes();
-        $schedule->command('send:lessonsUpdated')->everyFiveMinutes();
+        $schedule->command('send:lessonsCreated')
+            ->everyFiveMinutes()
+            ->between('7:00', '19:00');
+
+        $schedule->command('send:lessonsUpdated')
+            ->everyFiveMinutes()
+            ->between('7:00', '19:00');;
     }
 
     /**
