@@ -44,6 +44,8 @@ class SmsSender
 
         $result = $this->sender->send($message);
 
+        Log::info('SmsSender: ' . json_encode($message));
+
         return $result->isSuccess();
     }
 }

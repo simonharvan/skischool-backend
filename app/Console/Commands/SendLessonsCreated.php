@@ -138,7 +138,7 @@ class SendLessonsCreated extends Command
         foreach ($lessons as $lesson) {
             $from = Carbon::parse($lesson['from']);
             $to = Carbon::parse($lesson['to']);
-            $hours[] = ucfirst($from->dayName) . $from->format(' (j.n.) H:i') . ' - ' . $to->format('H:i');
+            $hours[] = ucfirst($from->dayName) . $from->format(' j.n. H:i') . ' - ' . $to->format('H:i');
         }
         $text .= join(', ', $hours);
         $text .= '. Môžete nás kontaktovať na tel. č. +421917406403. Ďakujeme, Lyž. š. U Medveďa';

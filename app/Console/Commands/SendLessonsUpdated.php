@@ -198,8 +198,8 @@ class SendLessonsUpdated extends Command
             $originalTo = Carbon::parse($originalTo);
             $from = Carbon::parse($lessonWithChanges['lesson']['from']);
             $to = Carbon::parse($lessonWithChanges['lesson']['to']);
-            $hours[] = 'Z '. ucfirst($originalFrom->dayName) . $originalFrom->format(' (j.n.) H:i') . ' - ' . $originalTo->format('H:i')
-            . ' na ' . ucfirst($from->dayName) . $from->format(' (j.n.) H:i') . ' - ' . $to->format('H:i') ;
+            $hours[] = 'Z '. ucfirst($originalFrom->dayName) . $originalFrom->format(' j.n. H:i') . ' - ' . $originalTo->format('H:i')
+            . ' na ' . ucfirst($from->dayName) . $from->format(' j.n. H:i') . ' - ' . $to->format('H:i') ;
 
         }
         $text .= join(', ', $hours);
