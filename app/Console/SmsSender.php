@@ -11,6 +11,7 @@ use BulkGate\Sms\SenderSettings\CountrySenderSettings;
 use BulkGate\Sms\SenderSettings\Gate;
 use BulkGate\Sms\SenderSettings\InvalidGateException;
 use BulkGate\Sms\SenderSettings\StaticSenderSettings;
+use Illuminate\Support\Facades\Log;
 
 class SmsSender
 {
@@ -41,6 +42,9 @@ class SmsSender
         $message = new GateMessage($phone, $text);
 
         $result = $this->sender->send($message);
+
+        Log::info('SmsSender: ' . json_encode($result));
+
         return $result->isSuccess();
     }
 }
