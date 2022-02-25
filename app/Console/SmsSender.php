@@ -38,7 +38,6 @@ class SmsSender
 
     public function sendMessage($phone, $text): bool
     {
-        return true;
         $message = new GateMessage($phone, $text);
 
         $result = $this->sender->send($message);

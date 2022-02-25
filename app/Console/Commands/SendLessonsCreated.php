@@ -129,9 +129,9 @@ class SendLessonsCreated extends Command
     private function createText($lessons): string
     {
         if (count($lessons) > 1) {
-            $text = 'Dobrý deň, rezervovali sme pre Vás hodiny v nasledujúce dni: ';
+            $text = 'Rezervovali sme pre Vás nasledujúce hodiny: ';
         } else {
-            $text = 'Dobrý deň, rezervovali sme pre Vás nasledujúcu hodinu: ';
+            $text = 'Rezervovali sme pre Vás nasledujúcu hodinu: ';
         }
 
         $hours = [];
@@ -141,7 +141,7 @@ class SendLessonsCreated extends Command
             $hours[] = ucfirst($from->dayName) . $from->format(' (j.n.) H:i') . ' - ' . $to->format('H:i');
         }
         $text .= join(', ', $hours);
-        $text .= ' Ak chcete urobiť zmenu, môžete tak urobiť na tel. č. +421917406403. Nájdete nás pri údolnej stanici lanovky Dedovka. Ďakujeme.';
+        $text .= '. Môžete nás kontaktovať na tel. č. +421917406403. Ďakujeme, Lyž. š. U Medveďa';
         return $text;
     }
 }

@@ -177,7 +177,7 @@ class SendLessonsUpdated extends Command
     private function createText($lessonsWithChanges): string
     {
         if (count($lessonsWithChanges) == 1) {
-            $text = 'Dobrý deň, 1 vašej hodine sa zmenil čas: ';
+            $text = 'Dobrý deň, vašej hodine sa zmenil čas: ';
         } else {
             $text = 'Dobrý deň, ' . count($lessonsWithChanges) .' vašim hodínám za zmenil čas: ';
         }
@@ -203,7 +203,7 @@ class SendLessonsUpdated extends Command
 
         }
         $text .= join(', ', $hours);
-        $text .= ' Ak chcete urobiť zmenu, môžete tak urobiť na tel. č. +421917406403. Ďakujeme.';
+        $text .= '. Môžete nás kontaktovať na tel. č. +421917406403. Ďakujeme, Lyž. š. U Medveďa';
         return $text;
     }
 }
