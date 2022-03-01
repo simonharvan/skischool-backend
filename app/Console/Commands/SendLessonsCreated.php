@@ -58,7 +58,7 @@ class SendLessonsCreated extends Command
 
         $lessons = Lesson::query()
             ->where('from', '>', $now)
-            ->where('created_at', '<', $now->subMinutes(30))
+            ->where('created_at', '<', $now->subMinutes(20))
             ->where('status', '=', Lesson::TYPE_UNPAID)
             ->get();
         Log::info('LessonsCreated:' . json_encode($lessons));

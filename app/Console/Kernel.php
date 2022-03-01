@@ -28,11 +28,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('send:lessonsCreated')
-            ->everyFiveMinutes()
+            ->everyThirtyMinutes()
             ->between('7:00', '19:00');
 
         $schedule->command('send:lessonsUpdated')
-            ->everyFiveMinutes()
+            ->everyFifteenMinutes()
             ->between('7:00', '19:00');
     }
 
