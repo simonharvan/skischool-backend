@@ -101,12 +101,31 @@ class SendLessonsUpdated extends Command
             $from = Carbon::parse($lesson['from']);
 
             /*
+             * Find all changes on 'from' and 'to' field
+             */
+
+            $fromChanges = [];
+            $toChanges = [];
+            foreach ($filteredChanges as $change) {
+                if ($change['field'] == 'to') {
+                    $toChanges[] = $change;
+                }
+                if ($change['field'] == 'from') {
+                    $fromChanges[] = $change;
+                }
+            }
+            $isFromChanged = !empty($fromChanges) &&
+                (reset($fromChanges)['old_value'] == end($fromChanges)['new_value']);
+
+            $isToChanged = !empty($toChanges) &&
+                (reset($toChanges)['old_value'] == end($toChanges)['new_value']);
+
+
+            /*
              * If the change is for today or the change went back to the original value don't notify
              */
-            if (empty($filteredChanges) || (
-                    reset($filteredChanges)['old_value'] == end($filteredChanges)['new_value'] &&
-                    reset($filteredChanges)['field'] == end($filteredChanges)['field']
-                ) ||
+            if (empty($filteredChanges) ||
+                (!$isFromChanged && !$isToChanged) ||
                 $from->isCurrentDay() ||
                 $from->isPast() ||
                 $lesson['status'] == Lesson::TYPE_PAID
@@ -179,7 +198,7 @@ class SendLessonsUpdated extends Command
         if (count($lessonsWithChanges) == 1) {
             $text = 'Dobrý deň, vašej hodine sa zmenil čas: ';
         } else {
-            $text = 'Dobrý deň, ' . count($lessonsWithChanges) .' vašim hodínám za zmenil čas: ';
+            $text = 'Dobrý deň, ' . count($lessonsWithChanges) . ' vašim hodínám za zmenil čas: ';
         }
 
         $hours = [];
@@ -198,8 +217,8 @@ class SendLessonsUpdated extends Command
             $originalTo = Carbon::parse($originalTo);
             $from = Carbon::parse($lessonWithChanges['lesson']['from']);
             $to = Carbon::parse($lessonWithChanges['lesson']['to']);
-            $hours[] = 'Z '. ucfirst($originalFrom->dayName) . $originalFrom->format(' j.n. H:i') . ' - ' . $originalTo->format('H:i')
-            . ' na ' . ucfirst($from->dayName) . $from->format(' j.n. H:i') . ' - ' . $to->format('H:i') ;
+            $hours[] = 'Z ' . ucfirst($originalFrom->dayName) . $originalFrom->format(' j.n. H:i') . ' - ' . $originalTo->format('H:i')
+                . ' na ' . ucfirst($from->dayName) . $from->format(' j.n. H:i') . ' - ' . $to->format('H:i');
 
         }
         $text .= join(', ', $hours);
