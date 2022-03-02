@@ -115,10 +115,10 @@ class SendLessonsUpdated extends Command
                 }
             }
             $isFromChanged = !empty($fromChanges) &&
-                (reset($fromChanges)['old_value'] == end($fromChanges)['new_value']);
+                (reset($fromChanges)['old_value'] != end($fromChanges)['new_value']);
 
             $isToChanged = !empty($toChanges) &&
-                (reset($toChanges)['old_value'] == end($toChanges)['new_value']);
+                (reset($toChanges)['old_value'] != end($toChanges)['new_value']);
 
 
             /*
