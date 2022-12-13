@@ -18,6 +18,9 @@ Route::group(['namespace' => 'Api'], function () {
     Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::post('auth/login', ['as' => 'admin.login', 'uses' => 'AuthController@login']);
         Route::group(['middleware' => ['assign.guard:api', 'auth.api']], function () {
+            Route::get('/run-migrations', function () {
+                return Artisan::call('migrate', ["--force" => true ]);
+            });
             Route::get('/me','AuthController@me');
 
             Route::post('auth/logout', 'AuthController@logout');
@@ -30,7 +33,13 @@ Route::group(['namespace' => 'Api'], function () {
                     'index', 'store', 'update', 'destroy'
                 ]
             ]);
-            Route::get('/payout', 'PayoutController@index');
+            Route::resource('payout', 'PayoutController', [
+                'only' => [
+                    'index', 'store'
+                ]
+            ]);
+
+            Route::get('instructors/{instructor}/payout', 'PayoutController@detail');
 
             Route::resource('clients', 'ClientController', [
                 'only' => [

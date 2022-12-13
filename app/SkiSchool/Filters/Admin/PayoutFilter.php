@@ -16,7 +16,7 @@ class PayoutFilter extends Filter
      */
     protected function from($date)
     {
-        return $this->builder->whereDate('from','>=', $date);
+        return $this->builder->whereDate('from', '>=', $date);
     }
 
     /**
@@ -29,5 +29,22 @@ class PayoutFilter extends Filter
     protected function to($date)
     {
         return $this->builder->whereDate('to', '<=', $date);
+    }
+
+    /**
+     * Filter if lesson was already paid to instructor.
+     *
+     * @param $includePaid
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function includePaid($includePaid)
+    {
+        if (filter_var($includePaid, FILTER_VALIDATE_BOOLEAN)) {
+            return $this->builder;
+        } else {
+            return $this->builder->whereNotIn('id', function ($query) {
+                $query->select('lesson_id')->from('lesson_payouts');
+            });
+        }
     }
 }

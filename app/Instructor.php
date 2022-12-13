@@ -36,6 +36,9 @@ class Instructor extends Authenticatable implements JWTSubject
         return $this->hasMany(Attendance::class)->latest();
     }
 
+    public function payouts() {
+        return $this->hasMany(Payout::class)->latest();
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -43,7 +43,7 @@ class AttendanceController extends ApiController
     }
 
     /**
-     * Create a new lesson and return the lesson if successful.
+     * Create a new attendance and return the attendance if successful.
      *
      * @param CreateAttendance $request
      * @return \Illuminate\Http\JsonResponse

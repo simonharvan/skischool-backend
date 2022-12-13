@@ -33,6 +33,11 @@ class Lesson extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function payout()
+    {
+        return $this->hasOneThrough(Payout::class, LessonPayout::class, 'lesson_id', 'id', 'id', 'payout_id');
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
