@@ -37,19 +37,15 @@ class CreatedLesson extends Notification
     {
         $from = Carbon::parse($this->lesson['from']);
         $to = Carbon::parse($this->lesson['to']);
+        $notification = \NotificationChannels\Fcm\Resources\Notification::create()
+            ->title('Hodina s ' . $this->lesson['name']. ' ('. $this->lesson['type']. ')')
+            ->body(ucfirst($from->dayName) . ': ' . $from->format('H:i') . ' - ' . $to->format('H:i'));
 
         return FcmMessage::create()
-            ->setData(['data1' => 'value', 'data2' => 'value2'])
-            ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
-                ->setTitle('Hodina s ' . $this->lesson['name']. ' ('. $this->lesson['type']. ')')
-                ->setBody(ucfirst($from->dayName) . ': ' . $from->format('H:i') . ' - ' . $to->format('H:i')))
-            ->setAndroid(
-                AndroidConfig::create()
-                    ->setFcmOptions(AndroidFcmOptions::create()->setAnalyticsLabel('analytics'))
-//                    ->setNotification(AndroidNotification::create()->setColor('#0A0A0A'))
-            )->setApns(
-                ApnsConfig::create()
-                    ->setFcmOptions(ApnsFcmOptions::create()->setAnalyticsLabel('analytics_ios')));
+            ->data(['data1' => 'value', 'data2' => 'value2'])
+            ->notification($notification);
+
+
     }
 
 
