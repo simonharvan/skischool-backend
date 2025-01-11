@@ -45,7 +45,9 @@ class StatsController extends ApiController
 
         $data['clients'] = $query->count();
 
-        $lessons = Lesson::filter($filter)->get();
+        $lessons = Lesson::filter($filter)
+            ->where('name', '<>', env('FREE_TIME_CLIENT_NAME', 'Xxx'))
+            ->get();
 
         $diff = 0;
         foreach ($lessons as $lesson) {
@@ -54,11 +56,15 @@ class StatsController extends ApiController
 
         $data['duration'] = $diff;
 
-        $data['unpaid'] = Lesson::filter($filter)->where('status', '=', Lesson::TYPE_UNPAID)->sum('price');
+        $data['unpaid'] = Lesson::filter($filter)
+            ->where('name', '<>', env('FREE_TIME_CLIENT_NAME', 'Xxx'))
+            ->where('status', '=', Lesson::TYPE_UNPAID)->sum('price');
         $data['paid'] = Lesson::filter($filter)
+            ->where('name', '<>', env('FREE_TIME_CLIENT_NAME', 'Xxx'))
             ->where('status', '=', Lesson::TYPE_PAID)->sum('price');
 
         $lesson = Lesson::filter($filter)
+            ->where('name', '<>', env('FREE_TIME_CLIENT_NAME', 'Xxx'))
             ->select('instructor_id', DB::raw('sum(price) as earned'))
             ->groupBy('instructor_id')
             ->orderBy('earned', 'DESC')
@@ -70,6 +76,7 @@ class StatsController extends ApiController
         } else {
             $data['best_instructor'] = Instructor::firstWhere('id', '=', $lesson->instructor_id)->name;
             $instructorsLessons = Lesson::filter($filter)
+                ->where('name', '<>', env('FREE_TIME_CLIENT_NAME', 'Xxx'))
                 ->where('instructor_id', '=', $lesson->instructor_id)
                 ->get();
 
