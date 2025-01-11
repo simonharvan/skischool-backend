@@ -11,11 +11,9 @@ use App\Http\Requests\Api\UpdateLesson;
 use App\Instructor;
 use App\Lesson;
 use App\LessonChange;
-use App\Message;
 use App\SkiSchool\Filters\Admin\LessonFilter;
 use App\SkiSchool\Notifications\CreatedLesson;
 use App\SkiSchool\Transformers\LessonTransformer;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -55,32 +53,14 @@ class LessonController extends ApiController
     {
         $lesson = $request->get('lesson');
         $client = $lesson['client'];
-
         if (!isset($client['id'])) {
-            try {
-                $client = Client::create([
-                    'name' => ucwords($client['name']),
-                    'email' => !empty($client['email']) ? $client['email'] : null,
-                    'phone' => !empty($client['phone']) ? $client['phone'] : null,
-                    'phone_2' => !empty($client['phone_2']) ? $client['phone_2'] : null,
-                ]);
-            } catch (QueryException $e) {
-                $errorCode = $e->errorInfo[1];
-                if ($errorCode == 1062) {
-                    $query = Client::query();
-                    if (!empty($client['email'])) {
-                        $query = $query->orWhere('email', '=', $client['email']);
-                    }
-
-                    if (!empty($client['phone'])) {
-                        $query = $query->orWhere('phone', '=', $client['phone']);
-                    }
-
-                    if (!empty($client['phone_2'])) {
-                        $query = $query->orWhere('phone_2', '=', $client['phone_2']);
-                    }
-                    $client = $query->first();
-                } else {
+            // If the name is Xxx or similar, it is reserved for "free time" client
+            if (in_array(strtolower($client['name']), explode(',', env('FREE_TIME_CLIENT_NAME_CHECK', 'xxx')))) {
+                $client = $this->queryOrCreateReservedClient();
+            } else {
+                try {
+                    $client = $this->createClient($client);
+                } catch (QueryException $e) {
                     return $this->respondInternalError('Problem creating client: ' . $e->getMessage());
                 }
             }
@@ -221,5 +201,53 @@ class LessonController extends ApiController
         Lesson::whereIn('id', $lessons['ids'])->update($update);
 
         return $this->respondSuccess();
+    }
+
+    private function queryOrCreateReservedClient(): Client
+    {
+        $client = Client::query()
+            ->where('name', '=', env('FREE_TIME_CLIENT_NAME', 'Xxx'))
+            ->first();
+        // First time create
+        if (!isset($client)) {
+            $client = Client::create([
+                'name' => env('FREE_TIME_CLIENT_NAME', 'Xxx'),
+                'email' => null,
+                'phone' => null,
+                'phone_2' => null,
+            ]);
+        }
+        return $client;
+    }
+
+    private function createClient($client): Client
+    {
+        try {
+            return Client::create([
+                'name' => ucwords($client['name']),
+                'email' => !empty($client['email']) ? $client['email'] : null,
+                'phone' => !empty($client['phone']) ? $client['phone'] : null,
+                'phone_2' => !empty($client['phone_2']) ? $client['phone_2'] : null,
+            ]);
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            if ($errorCode == 1062) {
+                $query = Client::query();
+                if (!empty($client['email'])) {
+                    $query = $query->orWhere('email', '=', $client['email']);
+                }
+
+                if (!empty($client['phone'])) {
+                    $query = $query->orWhere('phone', '=', $client['phone']);
+                }
+
+                if (!empty($client['phone_2'])) {
+                    $query = $query->orWhere('phone_2', '=', $client['phone_2']);
+                }
+                return $query->first();
+            } else {
+                throw $e;
+            }
+        }
     }
 }

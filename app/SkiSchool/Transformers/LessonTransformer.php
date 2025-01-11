@@ -5,6 +5,7 @@ namespace App\SkiSchool\Transformers;
 use App\SkiSchool\Transformers\Transformer;
 use App\SkiSchool\Transformers\InstructorTransformer;
 use App\SkiSchool\Transformers\ClientTransformer;
+use const App\Http\Controllers\Api\Admin\FREE_TIME_CLIENT_NAME;
 
 class LessonTransformer extends Transformer
 {
@@ -39,6 +40,7 @@ class LessonTransformer extends Transformer
         if ($this->addClientAndInstructor) {
             $json['instructor'] = $instructorTransformer->transform($data['instructor']);
             $json['client'] = $clientTransformer->transform($data['client']);
+            $json['is_time_off'] = $data['client']['name'] == env('FREE_TIME_CLIENT_NAME', 'Xxx');
         }
 
         if ($this->addPaidToInstructor) {

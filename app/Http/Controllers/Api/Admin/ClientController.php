@@ -31,7 +31,10 @@ class ClientController extends ApiController
      */
     public function index(ClientFilter $filter)
     {
-        $clients = new Paginate(Client::filter($filter));
+        $clients = new Paginate(
+            Client::where('name', '<>', env('FREE_TIME_CLIENT_NAME', 'Xxx'))
+                ->filter($filter)
+        );
 
         return $this->respondWithPagination($clients);
     }

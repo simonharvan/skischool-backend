@@ -93,7 +93,10 @@ class PayoutController extends ApiController
 
     private function getLessonsAndStats(Instructor $instructor, PayoutFilter $filter)
     {
-        $lessons = $instructor->lessons()->filter($filter)->get();
+        $lessons = $instructor->lessons()
+            ->where('name', '<>', env('FREE_TIME_CLIENT_NAME', 'Xxx'))
+            ->filter($filter)
+            ->get();
         $payouts = $instructor->payouts()->get();
         $total = $this->getTotalTime($lessons);
         $stats = [
