@@ -2,10 +2,12 @@
 
 namespace App\Console;
 
+use BulkGate\Sdk\ApiException;
 use BulkGate\Sdk\Connection\ConnectionStream;
 use BulkGate\Sdk\MessageSender;
 use BulkGate\Sdk\Message\Sms;
 use BulkGate\Sdk\Sender;
+use BulkGate\Sdk\SenderException;
 use BulkGate\Sdk\TypeError;
 use Illuminate\Support\Facades\Log;
 
@@ -32,10 +34,14 @@ class SmsSender
             return false;
         }
 
-        $result = $this->sender->send($message);
+        try {
+            $result = $this->sender->send($message);
+        } catch (ApiException $e) {
+            Log::info('SmsSender: api exception ' . json_encode($e));
+            return false;
+        }
 
-        Log::info('SmsSender: ' . json_encode($message));
-
-        return $result->isSuccess();
+        Log::info('SmsSender: ' . $result->jsonSerialize());
+        return true;
     }
 }
