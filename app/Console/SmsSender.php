@@ -37,11 +37,12 @@ class SmsSender
         try {
             $result = $this->sender->send($message);
         } catch (ApiException $e) {
-            Log::info('SmsSender: api exception ' . json_encode($e));
+            Log::info('SmsSender: api exception ' . $e->getMessage());
             return false;
         }
 
-        Log::info('SmsSender: ' . $result->jsonSerialize());
+        $json = $result->jsonSerialize();
+        Log::info('SmsSender: SMS send to '. isset($json['phone_number']) ? $json['phone_number'] : '' );
         return true;
     }
 }
