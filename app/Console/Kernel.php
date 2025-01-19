@@ -36,10 +36,7 @@ class Kernel extends ConsoleKernel
             ->between('7:00', '19:00');
 
         $schedule->command('telescope:prune')
-            ->mondays()
-            ->wednesdays()
-            ->fridays()
-            ->sundays();
+            ->daily();
     }
 
     /**
