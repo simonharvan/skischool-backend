@@ -34,6 +34,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('send:lessonsUpdated')
             ->everyFifteenMinutes()
             ->between('7:00', '19:00');
+
+        $schedule->command('telescope:prune')
+            ->mondays()
+            ->wednesdays()
+            ->fridays()
+            ->sundays();
     }
 
     /**
